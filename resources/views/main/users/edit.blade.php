@@ -37,14 +37,14 @@
                 </div>
                 <div class="mb-3 col-lg-6">
                     <label for="exampleFormControlInput4" class="form-label">password</label>
-                    <input type="password" class="form-control" id="exampleFormControlInput4" placeholder="password" name="password" required />
+                    <input type="password" class="form-control" id="exampleFormControlInput4" placeholder="password" name="password"  />
                     @error('password')
                         <strong class="text-danger">{{ $message }}</strong>
                     @enderror
                 </div>
                 <div class="mb-3 col-lg-6">
                     <label for="password_confirmation" class="form-label">Confirm Password</label>
-                    <input type="password" class="form-control" id="password_confirmation" placeholder="Confirm password" name="password_confirmation" required />
+                    <input type="password" class="form-control" id="password_confirmation" placeholder="Confirm password" name="password_confirmation"  />
                 </div>
                 <div class="mb-3 col-lg-6">
                     <label for="role" class="form-label">Role</label>

@@ -13,11 +13,8 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
-
     <title>{{ $setting->title }}</title>
-
-    <meta name="description" content="" />
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ asset('uploads/setting') }}/{{ $setting->favicon }}" />
 
@@ -98,6 +95,7 @@
     <!-- build:js assets/vendor/js/core.js -->
     <script src="{{ asset('asset') }}/assets/vendor/libs/jquery/jquery.js"></script>
     <script src="{{ asset('asset') }}/assets/vendor/libs/popper/popper.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('asset') }}/assets/vendor/js/bootstrap.js"></script>
     <script src="{{ asset('asset') }}/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 

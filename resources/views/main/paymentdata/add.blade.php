@@ -49,13 +49,6 @@
                     @enderror
                 </div>
                 <div class="mb-3 col-lg-6">
-                    <label for="due" class="form-label">Due</label>
-                    <input type="text" class="form-control" id="due" placeholder="Due" value="{{ old('due') }}" name="due" />
-                    @error('due')
-                    <strong class="text-danger">{{ $message }}</strong>
-                    @enderror
-                </div>
-                <div class="mb-3 col-lg-6">
                     <label for="total" class="form-label">Total</label>
                     <input type="text" class="form-control" id="total" placeholder="Total" value="{{ old('total') }}" name="total" />
                     @error('total')

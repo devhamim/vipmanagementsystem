@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\PaymentData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Log;
 
 class PaymentDataController extends Controller
 {
@@ -24,10 +25,10 @@ class PaymentDataController extends Controller
     {
         $user = auth()->user();
 
-        if ($user->role == 0) {
-            $paymentdatas = PaymentData::where('added_by', $user->id)->get();
+        if ($user->role == 1) {
+            $paymentdatas = PaymentData::paginate(30);
         } else {
-            $paymentdatas = PaymentData::all();
+            $paymentdatas = PaymentData::where('added_by', $user->id)->paginate(30);
         }
         return view('main.paymentdata.index',[
             'paymentdatas'=>$paymentdatas,
@@ -55,7 +56,6 @@ class PaymentDataController extends Controller
             'online_offline' => 'nullable',
             'payment_method' => ['nullable', 'string'],
             'pay' => 'nullable',
-            'due' => 'nullable',
             'total' => 'nullable',
             'note' => ['nullable', 'string',],
         ];
@@ -63,7 +63,7 @@ class PaymentDataController extends Controller
         $validateData = $request->validate($rules);
 
         $validateData['added_by'] = Auth::user()->id;
-
+        $validateData['due'] = $request->total-$request->pay;
         PaymentData::create($validateData);
 
         alert('success','created successfully.', 'success');
@@ -126,4 +126,31 @@ class PaymentDataController extends Controller
         alert()->warning('Delete','Delete successfully.');
         return back()->with('Warning', 'Delete successfully.');
     }
+
+    public function search(Request $request)
+{
+    \Log::info('Search query: ' . $request->input('query')); // Log the search query
+    return response()->json(['message' => 'Search function hit!']);
+    $query = $request->input('query');
+
+    // Search for payment data
+    $paymentdatas = PaymentData::where('name', 'LIKE', "%{$query}%")
+        ->orWhere('added_by', 'LIKE', "%{$query}%")
+        ->paginate(30); // Use pagination as needed
+
+    // If it’s an AJAX request
+    if ($request->ajax()) {
+        return response()->json([
+            'paymentdatas' => view('main.paymentdata.partial_list', ['paymentdatas' => $paymentdatas])->render(),
+            'pagination' => $paymentdatas->links()->render(),
+        ]);
+    }
+
+    // For non-AJAX requests, return the view with results
+    return 'sssss';
+    return view('main.paymentdata.index', compact('paymentdatas'));
+
+}
+
+
 }

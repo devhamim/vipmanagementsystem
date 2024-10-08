@@ -103,7 +103,6 @@ class UsersController extends Controller
         $rules = [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
             'number' => ['nullable', 'string', 'min:11',],
             'image' => ['nullable', 'max:2048'],
             'role' => 'required',
@@ -112,8 +111,10 @@ class UsersController extends Controller
 
         $validateData = $request->validate($rules);
 
-        $validateData['password'] = Hash::make($validateData['password']);
-        $validateData['temp_password'] = $request->password;
+        if($request->password){
+            $validateData['password'] = Hash::make($validateData['password']);
+            $validateData['temp_password'] = $request->password;
+        }
 
         if ($request->hasFile('image')) {
             $imagePath = public_path('uploads/user/' . $users->image);
@@ -129,9 +130,10 @@ class UsersController extends Controller
         }
 
         $users->update($validateData);
-
+        // toast('Warning Toast','warning');
+        // Alert::alert('Title', 'created successfully', 'success');
         alert('success','User created successfully.', 'success');
-        return back()->with('success', 'User created successfully.');
+        return redirect()->route('user.index')->with('success', 'User created successfully.');
     }
 
     /**

@@ -8,14 +8,14 @@
             @method('PUT')
             <div class="card-body row">
                 <div class="mb-3 col-lg-6">
-                    <label for="formFile" class="form-label">Default file input example</label>
+                    <label for="formFile" class="form-label">Logo</label>
                     <input class="form-control" name="logo" value="{{ $setting->logo }}" type="file" id="formFile">
                     @error('logo')
                         <strong class="text-danger">{{ $message }}</strong>
                     @enderror
                 </div>
                 <div class="mb-3 col-lg-6">
-                    <label for="formFile" class="form-label">Default file input example</label>
+                    <label for="formFile" class="form-label">Favicon</label>
                     <input class="form-control" name="favicon" value="{{ $setting->favicon }}" type="file" id="formFile">
                     @error('favicon')
                         <strong class="text-danger">{{ $message }}</strong>

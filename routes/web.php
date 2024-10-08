@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\DailyCostController;
 use App\Http\Controllers\DataEntryController;
 use App\Http\Controllers\PaymentDataController;
 use App\Http\Controllers\ProfileController;
@@ -26,6 +27,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::group(['prefix'=>'admin'],function(){
     Route::resource('user', UsersController::class)->middleware('checkRole:1');
     Route::resource('setting', SettingController::class)->middleware('checkRole:1');
+    Route::resource('dailycost', DailyCostController::class)->middleware('checkRole:1,2');
 });
 // Home route
 
@@ -35,4 +37,10 @@ Route::middleware(['auth'])->group(function(){
     Route::resource('dataentry', DataEntryController::class);
     Route::resource('paymentdata', PaymentDataController::class);
 });
+
+Route::get('/dailycost/search', [DailyCostController::class, 'search'])->name('dailycost.search');
+Route::get('/dataentry/search', [DataEntryController::class, 'dataentrysearch'])->name('dataentry.search');
+Route::get('/paymentdata/search', [PaymentDataController::class, 'search'])->name('paymentdata.search');
+
+
 

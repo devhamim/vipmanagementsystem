@@ -1,12 +1,23 @@
 @extends('main.layout.app')
+
 @section('content')
+
 <div class="card">
     <div class="d-flex justify-content-between">
-        <h5 class="card-header">Data Entry</h5>
+        <h5 class="card-header">Payment Data</h5>
         <div class="add-btn card-header me-5">
             <a class="btn btn-primary" href="{{ route('paymentdata.create') }}">Add</a>
         </div>
     </div>
+
+    <!-- Live Search Input -->
+<!-- CSRF Token -->
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
+<div class="card-header">
+    <input type="text" id="search" class="form-control" placeholder="Search by Name, Added By, etc...">
+</div>
+
     <div class="table-responsive text-nowrap">
         <table class="table">
             <thead class="table-light">
@@ -21,55 +32,53 @@
                     <th>Due</th>
                     <th>Total</th>
                     <th>Added By</th>
+                    <th>Date</th>
                     <th>Note</th>
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody class="table-border-bottom-0">
-                @foreach($paymentdatas as $key => $paymentdata)
-                    <tr>
-                        <td>{{ $key+1 }}</td>
-                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{ $paymentdata->name }}</strong></td>
-                        <td>{{ $paymentdata->email }}</td>
-                        <td> {{ $paymentdata->phone?$paymentdata->phone:'Null' }}</td>
-                        <td> {{ $paymentdata->online_offline?$paymentdata->online_offline:'Null' }}</td>
-                        <td> {{ $paymentdata->payment_method?$paymentdata->payment_method:'Null' }}</td>
-                        <td> {{ $paymentdata->pay?$paymentdata->pay:'Null' }}</td>
-                        <td> {{ $paymentdata->due?$paymentdata->due:'Null' }}</td>
-                        <td> {{ $paymentdata->total?$paymentdata->total:'Null' }}</td>
-                        <td> {{ $paymentdata->note?$paymentdata->note:'Null' }}</td>
-
-                        <td>
-                            @if($paymentdata->status == 0)
-                                <span class="badge bg-label-primary me-1">Deactive</span>
-                            @elseif($paymentdata->status == 1)
-                                <span class="badge bg-label-success me-1">Active</span>
-                            @endif
-                        </td>
-                        {{-- <td>
-                            <div class="dropdown">
-                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                    <i class="bx bx-dots-vertical-rounded"></i>
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="{{ route('paymentdata.edit', $paymentdata->id) }}"><i class="bx bx-edit-alt me-1"></i> Edit</a>
-
-
-                                    <form action="{{ route('paymentdata.destroy',  $paymentdata->id) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="dropdown-item" onclick="return confirm('Are you sure you want to delete this item?')">
-                                            <a class="dropdown-item"><i class="bx bx-trash me-1"></i> Delete</a>
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </td> --}}
-                    </tr>
-                @endforeach
+            <tbody class="table-border-bottom-0" id="paymentdata-list">
+                @include('main.paymentdata.partial_list', ['paymentdatas' => $paymentdatas])
             </tbody>
         </table>
+
+        <div id="pagination-links">
+            {{ $paymentdatas->links() }}
+        </div>
     </div>
 </div>
-@endsection
 
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#search').on('keyup', function() {
+            let query = $(this).val();  // Capture the input value
+            fetchPaymentData(query);
+        });
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        function fetchPaymentData(query = '') {
+            $.ajax({
+                url: "{{ route('paymentdata.search') }}",  // Ensure this route is correct
+                method: 'GET',
+                data: { query: query },  // Sending the search query
+                success: function(response) {
+                    $('#paymentdata-list').html(response.paymentdatas);
+                    $('#pagination-links').html(response.pagination);
+                },
+                error: function(xhr, status, error) {
+                    console.log('AJAX Error: ', error);  // Log AJAX errors for debugging
+                }
+            });
+        }
+    });
+</script>
+
+@endsection

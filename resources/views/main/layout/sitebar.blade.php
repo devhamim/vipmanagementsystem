@@ -39,6 +39,12 @@
                 <div data-i18n="Analytics">Payment Data</div>
             </a>
         </li>
+        <li class="menu-item">
+            <a href="{{ route('dailycost.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-layout"></i>
+                <div data-i18n="Analytics">Daily Cost</div>
+            </a>
+        </li>
     </ul>
 </aside>
 

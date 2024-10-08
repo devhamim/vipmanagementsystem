@@ -26,10 +26,14 @@ class DataEntryController extends Controller
 
         $user = auth()->user();
 
-        if ($user->role == 0) {
-            $dataentrys = DataEntry::where('added_by', $user->id)->get();
-        } else {
-            $dataentrys = DataEntry::all();
+        if ($user->role == 1) {
+            $dataentrys = DataEntry::paginate(30);
+        }
+        elseif ($user->role == 2) {
+            $dataentrys = DataEntry::where('added_by', $user->id)->paginate(30);
+        }
+        else {
+            $dataentrys = DataEntry::where('added_by', $user->id)->paginate(30);
         }
         return view('main.dataentry.index',[
             'dataentrys'=>$dataentrys,
@@ -157,4 +161,24 @@ class DataEntryController extends Controller
         alert()->warning('Delete','Delete successfully.');
         return back()->with('Warning', 'Delete successfully.');
     }
+
+
+    public function dataentrysearch(Request $request)
+{
+    $query = $request->input('query');
+
+    $dataentrys = DataEntry::where('name', 'LIKE', "%{$query}%")
+        ->orWhere('added_by', 'LIKE', "%{$query}%")
+        ->paginate(30);
+
+    if ($request->ajax()) {
+        return response()->json([
+            'dataentrys' => view('main.dataentry.partial_list', ['dataentrys' => $dataentrys])->render(),
+            'pagination' => $dataentrys->links()->render(),
+        ]);
+    }
+
+    return view('dataentry.index', compact('dataentrys'));
+}
+
 }
