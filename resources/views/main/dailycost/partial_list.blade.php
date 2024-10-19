@@ -3,7 +3,7 @@
                         <td>{{ $key+1 }}</td>
                         <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{ $dailycost->name }}</strong></td>
                         <td> {{ $dailycost->forwho?$dailycost->forwho:'Null' }}</td>
-                        <td> {{ $dailycost->added_by?$dailycost->added_by:'Null' }}</td>
+                        <td> {{ $dailycost->added_by?$dailycost->rel_to_user->name:'Null' }}</td>
                         <td> {{ $dailycost->total?$dailycost->total:'Null' }}</td>
                         <td> {{ $dailycost->created_at->format('d M Y') }}</td>
                         <td> {{ $dailycost->note?$dailycost->note:'Null' }}</td>

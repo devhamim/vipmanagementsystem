@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('image')->nullable();
             $table->string('position')->nullable();
+            $table->string('required')->nullable();
             $table->string('address')->nullable();
             $table->string('gender')->nullable();
             $table->string('age')->nullable();

@@ -11,19 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payment_data', function (Blueprint $table) {
+        Schema::create('employees', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('user_id')->nullable();
+            $table->string('image')->nullable();
             $table->string('number')->nullable();
             $table->string('email')->nullable();
-            $table->string('online_offline')->nullable();
-            $table->string('payment_method')->nullable();
-            $table->string('added_by')->nullable();
-            $table->string('pay')->nullable();
-            $table->string('due')->nullable();
-            $table->string('total')->nullable();
-            $table->string('status')->default(0);
-            $table->longText('note')->nullable();
+            $table->string('salary');
+            $table->string('havetopay')->nullable();
+            $table->string('status')->default(1);
+            $table->string('commission')->nullable();
             $table->timestamps();
         });
     }
@@ -33,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payment_data');
+        Schema::dropIfExists('employees');
     }
 };

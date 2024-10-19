@@ -35,9 +35,13 @@
     <link rel="stylesheet" href="{{ asset('asset') }}/assets/css/demo.css" />
 
     <!-- Vendors CSS -->
+    <link rel="stylesheet" href="{{ asset('asset') }}/assets/css/datatables.css" />
     <link rel="stylesheet" href="{{ asset('asset') }}/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
     <link rel="stylesheet" href="{{ asset('asset') }}/assets/vendor/libs/apex-charts/apex-charts.css" />
+
+     {{-- calander --}}
+     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
     <!-- Helpers -->
     <script src="{{ asset('asset') }}/assets/vendor/js/helpers.js"></script>
@@ -46,6 +50,9 @@
     <style>
         body{
             overflow-x: hidden;
+        }
+        .table-responsive{
+            padding-bottom: 70px;
         }
     </style>
   </head>
@@ -105,7 +112,12 @@
     <!-- Vendors JS -->
     <script src="{{ asset('asset') }}/assets/vendor/libs/apex-charts/apexcharts.js"></script>
 
+     {{-- calander --}}
+     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
     <!-- Main JS -->
+    <script src="{{ asset('asset/assets/js/datatables.js') }}"></script>
     <script src="{{ asset('asset') }}/assets/js/main.js"></script>
 
     <!-- Page JS -->
@@ -113,5 +125,16 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  <script>
+    $(document).ready( function () {
+        $('#myTable').DataTable({
+            "pageLength": 25
+        });
+    } );
+  </script>
+
+
+    @yield('footer_content')
   </body>
 </html>

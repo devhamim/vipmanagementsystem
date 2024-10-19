@@ -1,9 +1,11 @@
 @extends('main.layout.app')
 
 @section('content')
+
 <div class="card">
     <div class="d-flex justify-content-between">
-        <h5 class="card-header">Data Entry</h5>
+        <h5 class="card-header">Employ Payment Data</h5>
+
         <div class="filter row">
             <div class="col-lg-10">
                 <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
@@ -12,7 +14,7 @@
                     </div>
             </div>
             <div class="col-lg-2">
-                <form action="{{ route('dataentry.index') }}" method="GET">
+                <form action="{{ route('employe.home.view', $employ_id) }}" method="GET">
                     <!-- ... (other form fields) -->
                     <input type="hidden" name="start_date" id="start_date" value="{{ $defaultStartDate }}">
                     <input type="hidden" name="end_date" id="end_date" value="{{ $defaultEndDate }}">
@@ -20,16 +22,60 @@
                 </form>
             </div>
         </div>
-        <div class="add-btn card-header me-5">
-            <a class="btn btn-primary" href="{{ route('dataentry.create') }}">Add</a>
+        <div class="return_btn me-5">
+            <a href="{{ route('return.home') }}" class="btn btn-danger">Return Back</a>
         </div>
+        {{-- <div class="add-btn card-header me-5">
+            <a class="btn btn-primary" href="{{ route('paymentdata.create') }}">Add</a>
+        </div> --}}
     </div>
     <div class="row">
         <div class="col-lg-2 col-md-2 col-6 mb-4">
             <div class="card">
                 <div class="card-body">
                     <span class="fw-semibold d-block mb-1">Cliend</span>
-                    <h3 class="card-title mb-2">{{ $dataentrys_count }}</h3>
+                    <h3 class="card-title mb-2">{{ $paymentdata_count }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <span class="fw-semibold d-block mb-1">Pay</span>
+                    <h3 class="card-title mb-2">{{ $total_pay }}Tk</h3>
+                    <small class="{{ $growth_type_pay === 'up' ? 'text-success' : 'text-danger' }} fw-semibold">
+                        <i class="bx bx-{{ $growth_type_pay === 'up' ? 'up' : 'down' }}-arrow-alt"></i>
+                        {{ abs($growth_percentage_pay) }}%
+                        {{ $growth_type_pay === 'up' ? 'growth' : 'decline' }}
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <span class="fw-semibold d-block mb-1">Due</span>
+                    <h3 class="card-title mb-2">{{ $total_due }}Tk</h3>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <span class="fw-semibold d-block mb-1">Total</span>
+                    <h3 class="card-title mb-2">{{ $total }}Tk</h3>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <span class="fw-semibold d-block mb-1">Commission </span>
+                    <h3 class="card-title mb-2">{{ $total_comition }}Tk</h3>
+
                 </div>
             </div>
         </div>
@@ -42,31 +88,30 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Phone</th>
-                    <th>Position</th>
-                    <th>Address</th>
-                    <th>Gender</th>
-                    <th>Age</th>
-                    <th>Required</th>
+                    <th>Online Offline</th>
+                    <th>Payment Method</th>
+                    <th>Pay</th>
+                    <th>Due</th>
+                    <th>Total</th>
                     <th>Added By</th>
-                    <th>Lead</th>
                     <th>Date</th>
                     <th>Note</th>
-                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody id="dataentry-list">
-                @include('main.dataentry.partial_list', ['dataentrys' => $dataentrys])
+            <tbody class="table-border-bottom-0" id="paymentdata-list">
+                @include('main.paymentdata.partial_list', ['paymentdatas' => $paymentdatas])
             </tbody>
         </table>
 
         {{-- <div id="pagination-links">
-            {{ $dataentrys->links() }}
+            {{ $paymentdatas->links() }}
         </div> --}}
     </div>
 </div>
 
 @endsection
+
 
 @section('footer_content')
 <script type="text/javascript">

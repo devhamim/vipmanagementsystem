@@ -57,6 +57,13 @@
                     @enderror
                 </div>
                 <div class="mb-3 col-lg-6">
+                    <label for="required" class="form-label">Required</label>
+                    <input type="text" class="form-control" id="required" placeholder="Required" value="{{ old('required') }}" name="required" />
+                    @error('required')
+                        <strong class="text-danger">{{ $message }}</strong>
+                    @enderror
+                </div>
+                <div class="mb-3 col-lg-6">
                     <label for="lead" class="form-label">Lead</label>
                     <input type="text" class="form-control" id="lead" placeholder="Lead" value="{{ old('lead') }}" name="lead" />
                     @error('lead')

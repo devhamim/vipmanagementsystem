@@ -4,6 +4,22 @@
 <div class="card">
     <div class="d-flex justify-content-between">
         <h5 class="card-header">Daily Cost</h5>
+        <div class="filter row">
+            <div class="col-lg-10">
+                <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                    <i class="fa fa-calendar"></i>&nbsp;
+                    <span></span> <i class="fa fa-caret-down"></i>
+                    </div>
+            </div>
+            <div class="col-lg-2">
+                <form action="{{ route('dailycost.index') }}" method="GET">
+                    <!-- ... (other form fields) -->
+                    <input type="hidden" name="start_date" id="start_date" value="{{ $defaultStartDate }}">
+                    <input type="hidden" name="end_date" id="end_date" value="{{ $defaultEndDate }}">
+                    <button type="submit">Filter</button>
+                </form>
+            </div>
+        </div>
         <div class="add-btn card-header me-5">
             <a class="btn btn-primary" href="{{ route('dailycost.create') }}">Add</a>
         </div>
@@ -34,9 +50,9 @@
         </table>
 
         <!-- Pagination Links -->
-        <div id="pagination-links">
+        {{-- <div id="pagination-links">
             {{ $dailycosts->links() }}
-        </div>
+        </div> --}}
     </div>
 </div>
 
@@ -74,4 +90,41 @@
     });
 </script>
 
+@endsection
+
+@section('footer_content')
+<script type="text/javascript">
+    $(document).ready(function () {
+        var start_date = '{{ $defaultStartDate }}';
+        var end_date = '{{ $defaultEndDate }}';
+
+        if (start_date && end_date) {
+            start_date = moment(start_date, 'YYYY-MM-DD');
+            end_date = moment(end_date, 'YYYY-MM-DD');
+        } else {
+            start_date = moment().subtract(6, 'days');
+            end_date = moment();
+        }
+
+        function cb(start, end) {
+            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            $('#start_date').val(start.format('YYYY-MM-DD'));
+            $('#end_date').val(end.format('YYYY-MM-DD'));
+        }
+
+        $('#reportrange').daterangepicker({
+            startDate: start_date,
+            endDate: end_date,
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            }
+        }, cb);
+        cb(start_date, end_date);
+    });
+    </script>
 @endsection

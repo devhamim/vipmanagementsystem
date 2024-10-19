@@ -8,7 +8,8 @@
     <td> {{ $dataentry->address?$dataentry->address:'Null' }}</td>
     <td> {{ $dataentry->gender?$dataentry->gender:'Null' }}</td>
     <td> {{ $dataentry->age?$dataentry->age:'Null' }}</td>
-    <td> {{ $dataentry->added_by?$dataentry->added_by:'Null' }}</td>
+    <td> {{ $dataentry->required?$dataentry->required:'Null' }}</td>
+    <td> {{ $dataentry->added_by?$dataentry->rel_to_user->name:'Null' }}</td>
     <td> {{ $dataentry->lead?$dataentry->lead:'Null' }}</td>
     <td> {{ $dataentry->created_at->format('d M Y') }}</td>
     <td> {{ $dataentry->note?$dataentry->note:'Null' }}</td>

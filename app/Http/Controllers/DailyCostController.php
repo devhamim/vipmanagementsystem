@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DailyCost;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,17 +21,53 @@ class DailyCostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        if (empty($startDate) && empty($endDate)) {
+            $startDate = '';
+            $endDate = '';
+        }
+        else {
+            $endDate = Carbon::parse($endDate)->addDay();
+            $endDate = $endDate->format('Y-m-d');
+        }
+
         $user = auth()->user();
 
         if ($user->role == 1) {
-            $dailycosts = DailyCost::paginate(30);
-        } else {
-            $dailycosts = DailyCost::where('added_by', $user->id)->paginate(2);
+            if(!empty($startDate) && !empty($endDate)){
+                $dailycosts = DailyCost::whereBetween('created_at', [$startDate, $endDate])->orderBy('created_at', 'desc')->paginate(30);
+            }
+            else{
+                $dailycosts = DailyCost::paginate(30);
+            }
+
+        }
+        elseif ($user->role == 2) {
+            if(!empty($startDate) && !empty($endDate)){
+                $dailycosts = DailyCost::where('added_by', $user->id)->whereBetween('created_at', [$startDate, $endDate])->orderBy('created_at', 'desc')->paginate(30);
+            }
+            else{
+                $dailycosts = DailyCost::where('added_by', $user->id)->paginate(30);
+            }
+        }
+        else {
+            if(!empty($startDate) && !empty($endDate)){
+                $dailycosts = DailyCost::whereBetween('created_at', [$startDate, $endDate])->orderBy('created_at', 'desc')->paginate(30);
+                $dailycosts = DailyCost::where('added_by', $user->id)->whereBetween('created_at', [$startDate, $endDate])->orderBy('created_at', 'desc')->paginate(30);
+            }
+            else{
+                $dailycosts = DailyCost::where('added_by', $user->id)->paginate(30);
+            }
+
         }
         return view('main.dailycost.index',[
             'dailycosts'=>$dailycosts,
+            'defaultStartDate' => $startDate,
+            'defaultEndDate' => $endDate,
         ]);
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Str;
@@ -50,13 +51,15 @@ class UsersController extends Controller
             'password' => ['required', 'string', 'min:6', 'confirmed'],
             'number' => ['nullable', 'string', 'min:11', 'unique:users'],
             'image' => ['nullable', 'max:2048'],
+            'salary' => 'required',
             'role' => 'required',
             'status' => 'required',
         ];
 
         $validateData = $request->validate($rules);
 
-        $validateData['user_id'] = Str::slug($request->name) . '-' . random_int(10000, 99999);
+        $user_is = Str::slug($request->name) . '-' . random_int(10000, 99999);
+        $validateData['user_id'] =$user_is;
         $validateData['password'] = Hash::make($validateData['password']);
         $validateData['temp_password'] = $request->password;
 
@@ -68,7 +71,17 @@ class UsersController extends Controller
             $validateData['image'] = $fileName;
         }
 
-        User::create($validateData);
+        $users = User::create($validateData);
+
+        Employee::insert([
+            'name'=>$request->name,
+            'email'=>$request->email,
+            'number'=>$request->number,
+            'salary'=>$request->salary,
+            'status'=>$request->status,
+            'user_id'=>$users->id,
+            'havetopay'=>$request->salary,
+        ]);
 
         alert('success','User created successfully.', 'success');
         return back()->with('success', 'User created successfully.');
@@ -105,6 +118,7 @@ class UsersController extends Controller
             'email' => ['required', 'string', 'email', 'max:255'],
             'number' => ['nullable', 'string', 'min:11',],
             'image' => ['nullable', 'max:2048'],
+            'salary' => 'required',
             'role' => 'required',
             'status' => 'required',
         ];
@@ -130,6 +144,15 @@ class UsersController extends Controller
         }
 
         $users->update($validateData);
+
+        $users->update([
+            'name'=>$request->name,
+            'email'=>$request->email,
+            'number'=>$request->number,
+            'salary'=>$request->salary,
+            'status'=>$request->status,
+            'havetopay'=>$request->salary,
+        ]);
         // toast('Warning Toast','warning');
         // Alert::alert('Title', 'created successfully', 'success');
         alert('success','User created successfully.', 'success');

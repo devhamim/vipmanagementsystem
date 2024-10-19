@@ -57,6 +57,13 @@
                     @enderror
                 </div>
                 <div class="mb-3 col-lg-6">
+                    <label for="required" class="form-label">Required</label>
+                    <input type="text" class="form-control" id="required" placeholder="Required" value="{{$dataentry->required }}" name="required" />
+                    @error('required')
+                        <strong class="text-danger">{{ $message }}</strong>
+                    @enderror
+                </div>
+                <div class="mb-3 col-lg-6">
                     <label for="lead" class="form-label">Lead</label>
                     <input type="text" class="form-control" id="lead" placeholder="Lead" value="{{ $dataentry->lead }}" name="lead" />
                     @error('lead')
@@ -66,8 +73,8 @@
                 <div class="mb-3 col-lg-6">
                     <label for="status" class="form-label">Status</label>
                     <select id="status" name="status" class="form-select">
-                      <option value="1" {{ $dataentry->status == 1?'check':'' }}>Active</option>
-                      <option value="0" {{ $dataentry->status == 0?'check':'' }}>Deactive</option>
+                      <option value="1" {{ $dataentry->status == 1?'selected':'' }}>Active</option>
+                      <option value="0" {{ $dataentry->status == 0?'selected':'' }}>Deactive</option>
                     </select>
                 </div>
                 <div class="col-md">

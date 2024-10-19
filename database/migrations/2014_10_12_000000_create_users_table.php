@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('temp_password')->nullable();
             $table->string('role')->default(0);
+            $table->string('salary');
             $table->string('status')->default(1);
             $table->rememberToken();
             $table->timestamps();

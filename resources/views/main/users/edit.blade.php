@@ -36,6 +36,13 @@
                     @enderror
                 </div>
                 <div class="mb-3 col-lg-6">
+                    <label for="salary" class="form-label">Salary</label>
+                    <input type="number" class="form-control" id="salary" placeholder="Salary" value="{{ $users->salary }}" name="salary" />
+                    @error('salary')
+                    <strong class="text-danger">{{ $message }}</strong>
+                    @enderror
+                </div>
+                <div class="mb-3 col-lg-6">
                     <label for="exampleFormControlInput4" class="form-label">password</label>
                     <input type="password" class="form-control" id="exampleFormControlInput4" placeholder="password" name="password"  />
                     @error('password')
@@ -50,6 +57,7 @@
                     <label for="role" class="form-label">Role</label>
                     <select id="role" name="role" class="form-select">
                       <option value="0" {{ $users->role == 0?'selected':'' }}>User</option>
+                      <option value="2" {{ $users->role == 2?'selected':'' }}>Moderator</option>
                       <option value="1" {{ $users->role == 1?'selected':'' }}>Admin</option>
                     </select>
                 </div>

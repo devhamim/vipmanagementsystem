@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DataEntry;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Str;
@@ -21,22 +22,36 @@ class DataEntryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        if (empty($startDate) && empty($endDate)) {
+            $startDate = Carbon::now()->startOfMonth()->format('Y-m-d');
+            $endDate = Carbon::now()->endOfMonth()->format('Y-m-d');
+        }
+        else {
+            $endDate = Carbon::parse($endDate)->addDay();
+            $endDate = $endDate->format('Y-m-d');
+        }
 
         $user = auth()->user();
 
         if ($user->role == 1) {
-            $dataentrys = DataEntry::paginate(30);
+            $dataentrys_count = DataEntry::whereBetween('created_at', [$startDate, $endDate])->count();
+            $dataentrys = DataEntry::whereBetween('created_at', [$startDate, $endDate])->orderBy('created_at', 'desc')->get();
+        } else {
+            $dataentrys_count = DataEntry::where('added_by', $user->id)->whereBetween('created_at', [$startDate, $endDate])->count();
+
+            $dataentrys = DataEntry::where('added_by', $user->id)->whereBetween('created_at', [$startDate, $endDate])->orderBy('created_at', 'desc')->get();
         }
-        elseif ($user->role == 2) {
-            $dataentrys = DataEntry::where('added_by', $user->id)->paginate(30);
-        }
-        else {
-            $dataentrys = DataEntry::where('added_by', $user->id)->paginate(30);
-        }
+
         return view('main.dataentry.index',[
             'dataentrys'=>$dataentrys,
+            'defaultStartDate' => $startDate,
+            'defaultEndDate' => $endDate,
+            'dataentrys_count' => $dataentrys_count,
         ]);
     }
 
@@ -61,6 +76,7 @@ class DataEntryController extends Controller
             'address' => ['nullable', 'string'],
             'gender' => 'nullable',
             'age' => 'nullable',
+            'required' => 'nullable',
             'lead' => 'nullable',
             'note' => ['nullable', 'string',],
             'image' => ['nullable', 'max:2048'],
@@ -82,7 +98,7 @@ class DataEntryController extends Controller
         DataEntry::create($validateData);
 
         alert('success','created successfully.', 'success');
-        return back()->with('success', 'created successfully.');
+        return redirect()->route('dataentry.index')->with('success', 'created successfully.');
     }
 
     /**
@@ -118,6 +134,7 @@ class DataEntryController extends Controller
             'address' => ['nullable', 'string'],
             'gender' => 'nullable',
             'age' => 'nullable',
+            'required' => 'nullable',
             'lead' => 'nullable',
             'note' => ['nullable', 'string',],
             'image' => ['nullable', 'max:2048'],
@@ -143,7 +160,7 @@ class DataEntryController extends Controller
 
 
         alert('success','Update successfully.', 'success');
-        return back()->with('success', 'Update successfully.');
+        return redirect()->route('dataentry.index')->with('success', 'Update successfully.');
     }
 
     /**

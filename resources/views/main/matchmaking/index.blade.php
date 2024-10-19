@@ -3,7 +3,7 @@
 @section('content')
 <div class="card">
     <div class="d-flex justify-content-between">
-        <h5 class="card-header">Data Entry</h5>
+        <h5 class="card-header">Matchmaking</h5>
         <div class="filter row">
             <div class="col-lg-10">
                 <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
@@ -12,7 +12,7 @@
                     </div>
             </div>
             <div class="col-lg-2">
-                <form action="{{ route('dataentry.index') }}" method="GET">
+                <form action="{{ route('matchmaking.index') }}" method="GET">
                     <!-- ... (other form fields) -->
                     <input type="hidden" name="start_date" id="start_date" value="{{ $defaultStartDate }}">
                     <input type="hidden" name="end_date" id="end_date" value="{{ $defaultEndDate }}">
@@ -21,15 +21,16 @@
             </div>
         </div>
         <div class="add-btn card-header me-5">
-            <a class="btn btn-primary" href="{{ route('dataentry.create') }}">Add</a>
+            <a class="btn btn-primary" href="{{ route('matchmaking.create') }}">Add</a>
         </div>
     </div>
+
     <div class="row">
         <div class="col-lg-2 col-md-2 col-6 mb-4">
             <div class="card">
                 <div class="card-body">
                     <span class="fw-semibold d-block mb-1">Cliend</span>
-                    <h3 class="card-title mb-2">{{ $dataentrys_count }}</h3>
+                    <h3 class="card-title mb-2">{{ $matchmaking_count }}</h3>
                 </div>
             </div>
         </div>
@@ -39,30 +40,22 @@
             <thead class="table-light">
                 <tr>
                     <th>Sl</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Position</th>
-                    <th>Address</th>
-                    <th>Gender</th>
-                    <th>Age</th>
-                    <th>Required</th>
+                    <th>Groom Name</th>
+                    <th>Groom Number</th>
+                    <th>Bride Name</th>
+                    <th>Bride Number</th>
+                    <th>Meeting Date</th>
+                    <th>Progress Report</th>
+                    <th>Marrage Date</th>
                     <th>Added By</th>
-                    <th>Lead</th>
                     <th>Date</th>
-                    <th>Note</th>
-                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody id="dataentry-list">
-                @include('main.dataentry.partial_list', ['dataentrys' => $dataentrys])
+            <tbody id="matchmaking-list">
+                @include('main.matchmaking.partial_list', ['matchmakings' => $matchmakings])
             </tbody>
         </table>
-
-        {{-- <div id="pagination-links">
-            {{ $dataentrys->links() }}
-        </div> --}}
     </div>
 </div>
 

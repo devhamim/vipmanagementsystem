@@ -2,7 +2,7 @@
 @section('content')
 <div class="col-md-12">
     <div class="card mb-4">
-        <h5 class="card-header">Data Entry</h5>
+        <h5 class="card-header">Payment Data</h5>
         <form action="{{ route('paymentdata.store') }}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="card-body row">
@@ -43,25 +43,17 @@
                 </div>
                 <div class="mb-3 col-lg-6">
                     <label for="pay" class="form-label">Pay</label>
-                    <input type="text" class="form-control" id="pay" placeholder="Pay" value="{{ old('pay') }}" name="pay" />
+                    <input type="number" class="form-control" id="pay" placeholder="Pay" value="{{ old('pay') }}" name="pay" />
                     @error('pay')
                     <strong class="text-danger">{{ $message }}</strong>
                     @enderror
                 </div>
                 <div class="mb-3 col-lg-6">
                     <label for="total" class="form-label">Total</label>
-                    <input type="text" class="form-control" id="total" placeholder="Total" value="{{ old('total') }}" name="total" />
+                    <input type="number" class="form-control" id="total" placeholder="Total" value="{{ old('total') }}" name="total" />
                     @error('total')
                     <strong class="text-danger">{{ $message }}</strong>
                     @enderror
-                </div>
-
-                <div class="mb-3 col-lg-6">
-                    <label for="status" class="form-label">Status</label>
-                    <select id="status" name="status" class="form-select">
-                      <option value="1">Active</option>
-                      <option value="0">Deactive</option>
-                    </select>
                 </div>
                 <div class="mb-3 col-lg-12">
                     <label for="note" class="form-label">note</label>

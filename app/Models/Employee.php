@@ -5,13 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PaymentData extends Model
+class Employee extends Model
 {
     use HasFactory;
 
     protected $guarded = ['id'];
 
-    function rel_to_user(){
-        return $this->belongsTo(User::class, 'added_by');
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class);
     }
+
 }

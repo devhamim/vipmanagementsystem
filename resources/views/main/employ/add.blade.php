@@ -2,8 +2,8 @@
 @section('content')
 <div class="col-md-12">
     <div class="card mb-4">
-        <h5 class="card-header">User Register</h5>
-        <form action="{{ route('user.store') }}" method="post" enctype="multipart/form-data">
+        <h5 class="card-header">Employe Add</h5>
+        <form action="{{ route('employe.store') }}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="card-body row">
                 <div class="mb-3 col-lg-6">
@@ -22,7 +22,7 @@
                 </div>
                 <div class="mb-3 col-lg-6">
                     <label for="exampleFormControlInput2" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="exampleFormControlInput2" placeholder="name@example.com" value="{{ old('email') }}" name="email" required />
+                    <input type="email" class="form-control" id="exampleFormControlInput2" placeholder="name@example.com" value="{{ old('email') }}" name="email" />
                     @error('email')
                         <strong class="text-danger">{{ $message }}</strong>
                     @enderror
@@ -38,28 +38,10 @@
                     <label for="salary" class="form-label">Salary</label>
                     <input type="number" class="form-control" id="salary" placeholder="Salary" value="{{ old('salary') }}" name="salary" required />
                     @error('salary')
-                        <strong class="text-danger">{{ $message }}</strong>
+                    <strong class="text-danger">{{ $message }}</strong>
                     @enderror
                 </div>
-                <div class="mb-3 col-lg-6">
-                    <label for="exampleFormControlInput4" class="form-label">password</label>
-                    <input type="password" class="form-control" id="exampleFormControlInput4" placeholder="password" name="password" required />
-                    @error('password')
-                        <strong class="text-danger">{{ $message }}</strong>
-                    @enderror
-                </div>
-                <div class="mb-3 col-lg-6">
-                    <label for="password_confirmation" class="form-label">Confirm Password</label>
-                    <input type="password" class="form-control" id="password_confirmation" placeholder="Confirm password" name="password_confirmation" required />
-                </div>
-                <div class="mb-3 col-lg-6">
-                    <label for="role" class="form-label">Role</label>
-                    <select id="role" name="role" class="form-select">
-                      <option value="0">User</option>
-                      <option value="2">Moderator</option>
-                      <option value="1">Admin</option>
-                    </select>
-                </div>
+
                 <div class="mb-3 col-lg-6">
                     <label for="status" class="form-label">Status</label>
                     <select id="status" name="status" class="form-select">
