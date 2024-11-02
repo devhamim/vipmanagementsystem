@@ -43,6 +43,13 @@
                     @enderror
                 </div>
                 <div class="mb-3 col-lg-6">
+                    <label for="verify_by" class="form-label">Verify By</label>
+                    <input type="text" class="form-control" id="verify_by" placeholder="Verify By" value="{{ $paymentdata->verify_by }}" name="verify_by" />
+                    @error('verify_by')
+                    <strong class="text-danger">{{ $message }}</strong>
+                    @enderror
+                </div>
+                <div class="mb-3 col-lg-6">
                     <label for="pay" class="form-label">Pay</label>
                     <input type="number" class="form-control" id="pay" placeholder="Pay" value="{{$paymentdata->pay }}" name="pay" />
                     @error('pay')

@@ -41,6 +41,7 @@
                     <strong class="text-danger">{{ $message }}</strong>
                     @enderror
                 </div>
+                
                 <div class="mb-3 col-lg-6">
                     <label for="pay" class="form-label">Pay</label>
                     <input type="number" class="form-control" id="pay" placeholder="Pay" value="{{ old('pay') }}" name="pay" />

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('online_offline')->nullable();
             $table->string('payment_method')->nullable();
             $table->string('added_by')->nullable();
+            $table->string('verify_by')->nullable();
             $table->string('pay')->nullable();
             $table->string('due')->nullable();
             $table->string('total')->nullable();

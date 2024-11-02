@@ -8,6 +8,7 @@
         <td>{{ $paymentdata->due ?? 'Null' }}</td>
         <td>{{ $paymentdata->total ?? 'Null' }}</td>
         <td>{{ $paymentdata->rel_to_user->name ?? 'Null' }}</td>
+        <td>{{ $paymentdata->verify_by ?? 'Null' }}</td>
         <td>{{ $paymentdata->created_at->format('d M Y') }}</td>
         <td>{{ $paymentdata->online_offline ?? 'Null' }}</td>
         <td>{{ $paymentdata->payment_method ?? 'Null' }}</td>
@@ -18,7 +19,7 @@
                 @elseif($paymentdata->status == 1)
                     <span class="badge bg-label-success me-1">Active</span>
                 @endif
-                
+
             @endif
         </td>
         <td>{{ $paymentdata->note ?? 'Null' }}</td>

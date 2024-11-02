@@ -88,6 +88,7 @@
                     <th>Due</th>
                     <th>Total</th>
                     <th>Added By</th>
+                    <th>Verify By</th>
                     <th>Date</th>
                     <th>Online Offline</th>
                     <th>Payment Method</th>

@@ -196,6 +196,7 @@ class PaymentDataController extends Controller
             'pay' => 'nullable',
             'total' => 'nullable',
             'status' => 'nullable',
+            'verify_by' => 'nullable',
             'note' => ['nullable', 'string',],
         ];
 
