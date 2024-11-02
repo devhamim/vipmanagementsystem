@@ -74,6 +74,7 @@ class MatchmakingController extends Controller
             'meeting_date' => ['nullable', 'string'],
             'progress_report' => 'nullable',
             'marrage_date' => 'nullable',
+            'note' => 'nullable',
         ];
 
         $validateData = $request->validate($rules);
@@ -119,6 +120,7 @@ class MatchmakingController extends Controller
             'meeting_date' => ['nullable', 'string'],
             'progress_report' => 'nullable',
             'marrage_date' => 'nullable',
+            'note' => 'nullable',
         ];
 
         $validateData = $request->validate($rules);

@@ -56,6 +56,13 @@
                         <strong class="text-danger">{{ $message }}</strong>
                     @enderror
                 </div>
+                <div class="mb-3 col-lg-12">
+                    <label for="note" class="form-label">note</label>
+                    <textarea class="form-control" id="note" rows="3" name="note">{{ old('note') }}</textarea>
+                    @error('note')
+                        <strong class="text-danger">{{ $message }}</strong>
+                    @enderror
+                </div>
             </div>
             <div class="row">
                 <div class="mb-3 col-lg-6">

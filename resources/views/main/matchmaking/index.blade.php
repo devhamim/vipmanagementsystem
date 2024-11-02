@@ -49,6 +49,7 @@
                     <th>Marrage Date</th>
                     <th>Added By</th>
                     <th>Date</th>
+                    <th>Note</th>
                     <th>Actions</th>
                 </tr>
             </thead>

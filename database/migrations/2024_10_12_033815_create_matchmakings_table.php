@@ -21,6 +21,7 @@ return new class extends Migration
             $table->longText('progress_report')->nullable();
             $table->string('marrage_date')->nullable();
             $table->string('added_by')->nullable();
+            $table->longText('note')->nullable();
             $table->timestamps();
         });
     }

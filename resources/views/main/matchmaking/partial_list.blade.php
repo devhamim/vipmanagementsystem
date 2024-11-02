@@ -10,6 +10,7 @@
     <td> {{ $matchmaking->marrage_date ?? 'Null' }}</td>
     <td> {{ $matchmaking->rel_to_user->name ?? 'Null' }}</td>
     <td> {{ $matchmaking->created_at->format('d M Y') }}</td>
+    <td> {{ $matchmaking->note ?? 'Null' }}</td>
 
     <td>
         <div class="dropdown">

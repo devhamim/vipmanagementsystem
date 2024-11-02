@@ -56,6 +56,13 @@
                         <strong class="text-danger">{{ $message }}</strong>
                     @enderror
                 </div>
+                <div class="mb-3 col-lg-12">
+                    <label for="note" class="form-label">note</label>
+                    <textarea class="form-control" id="note" rows="3" name="note">{{ $matchmaking->note }}</textarea>
+                    @error('note')
+                        <strong class="text-danger">{{ $message }}</strong>
+                    @enderror
+                </div>
                 <div class="mb-3 col-lg-6">
                     <button class="btn btn-primary btn-lg" type="submit">Button</button>
                 </div>
