@@ -3,7 +3,7 @@
     <td>{{ $key+1 }}</td>
     <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{ $dataentry->name }}</strong></td>
     <td>{{ $dataentry->email }}</td>
-    <td> {{ $dataentry->phone?$dataentry->phone:'Null' }}</td>
+    <td> {{ $dataentry->number?$dataentry->number:'Null' }}</td>
     <td> {{ $dataentry->position?$dataentry->position:'Null' }}</td>
     <td> {{ $dataentry->address?$dataentry->address:'Null' }}</td>
     <td> {{ $dataentry->gender?$dataentry->gender:'Null' }}</td>

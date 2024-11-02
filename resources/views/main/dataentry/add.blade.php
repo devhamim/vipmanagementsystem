@@ -22,7 +22,7 @@
                 </div>
                 <div class="mb-3 col-lg-6">
                     <label for="exampleFormControlInput2" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="exampleFormControlInput2" placeholder="name@example.com" value="{{ old('email') }}" name="email" required />
+                    <input type="email" class="form-control" id="exampleFormControlInput2" placeholder="name@example.com" value="{{ old('email') }}" name="email" />
                     @error('email')
                         <strong class="text-danger">{{ $message }}</strong>
                     @enderror
@@ -80,14 +80,14 @@
                 <div class="col-md">
                     <small class="text-light fw-semibold d-block">Gender</small>
                     <div class="form-check form-check-inline mt-3">
-                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="Male" name="gender">
+                      <input class="form-check-input" type="radio" id="inlineRadio1" value="Male" name="gender">
                       <label class="form-check-label" for="inlineRadio1">Male</label>
                     </div>
                     <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="Female" name="gender">
+                      <input class="form-check-input" type="radio" id="inlineRadio2" value="Female" name="gender">
                       <label class="form-check-label" for="inlineRadio2">Female</label>
                     </div>
-                    @error('address')
+                    @error('gender')
                         <strong class="text-danger">{{ $message }}</strong>
                     @enderror
                 </div>

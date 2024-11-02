@@ -68,6 +68,7 @@ class DataEntryController extends Controller
      */
     public function store(Request $request)
     {
+        return $request->all();
         $rules = [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['nullable', 'string', 'email', 'max:255'],
