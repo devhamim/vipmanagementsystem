@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Employee;
 use App\Models\PaymentData;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DB;
+use App\Notifications\PaymentAddedNotification;
 
 class PaymentDataController extends Controller
 {
@@ -132,8 +134,25 @@ class PaymentDataController extends Controller
 
         $validateData['added_by'] = Auth::user()->id;
         $validateData['due'] = $request->total-$request->pay;
-        PaymentData::create($validateData);
+        $paymentData = PaymentData::create($validateData);
 
+    Auth::user()->notify(new PaymentAddedNotification(
+        Auth::user()->name,
+        $paymentData->pay,
+        $paymentData->name,
+        $paymentData->id
+    ));
+
+    $adminsAndModerators = User::whereIn('role', [1, 2])->get();
+
+    foreach ($adminsAndModerators as $admin) {
+        $admin->notify(new PaymentAddedNotification(
+            Auth::user()->name,
+            $paymentData->pay,
+            $paymentData->name,
+            $paymentData->id
+        ));
+    }
 
         $total_pay = PaymentData::where('added_by', Auth::user()->id)
         ->whereYear('created_at', date('Y'))
@@ -205,6 +224,19 @@ class PaymentDataController extends Controller
         $validateData['due'] = $request->total-$request->pay;
         $PaymentData->update($validateData);
 
+        $userName = auth()->user()->name;
+
+        // Notify all admins and moderators
+        $adminsAndModerators = User::whereIn('role', [1, 2])->get();
+
+        foreach ($adminsAndModerators as $admin) {
+            $admin->notify(new PaymentAddedNotification(
+                $userName,
+                $PaymentData->pay,
+                $PaymentData->name,
+                $PaymentData->id
+            ));
+        }
 
         $total_pay = PaymentData::where('added_by', Auth::user()->id)
         ->whereYear('created_at', date('Y'))

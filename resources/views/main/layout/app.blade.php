@@ -47,6 +47,9 @@
     <script src="{{ asset('asset') }}/assets/vendor/js/helpers.js"></script>
     <script src="{{ asset('asset') }}/assets/js/config.js"></script>
 
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging.js"></script>
     <style>
         body{
             overflow-x: hidden;
@@ -133,6 +136,93 @@
         });
     } );
   </script>
+
+{{-- <script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyBe03zQH1HyjnSB16CeaRSYecBLJv83p64",
+        authDomain: "vipsystem-c6a35.firebaseapp.com",
+        projectId: "vipsystem-c6a35",
+        storageBucket: "vipsystem-c6a35.firebasestorage.app",
+        messagingSenderId: "472431567567",
+        appId: "1:472431567567:web:f177ade51fdb8bca5c8dba",
+        measurementId: "G-YWKTL9XKF3"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const messaging = firebase.messaging();
+
+    document.getElementById('enable-notifications').onclick = () => {
+        Notification.requestPermission().then((permission) => {
+            if (permission === 'granted') {
+                messaging.getToken({ vapidKey: 'BM1cMNNVr_IzOFuYpO-K5_VxqzrjS4V1mTMCTaVLbYV20JOrJvZ-dGyz33u-Erhl0qvcSRBwtWO3_8oBG-xzivE' }).then((currentToken) => {
+                    if (currentToken) {
+                        console.log('Token received:', currentToken);
+                    } else {
+                        console.error('No registration token available. Request permission to generate one.');
+                    }
+                }).catch((err) => {
+                    console.error('An error occurred while retrieving token:', err);
+                });
+            } else {
+                console.error('Notification permission denied.');
+            }
+        });
+    };
+
+    messaging.onMessage((payload) => {
+        console.log('Message received:', payload);
+        alert(`Notification: ${payload.notification.title} - ${payload.notification.body}`);
+    });
+</script> --}}
+<script type="module">
+    // Import the necessary Firebase modules
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
+    import { getMessaging, getToken, onBackgroundMessage } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging.js';
+
+    // Your Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyBe03zQH1HyjnSB16CeaRSYecBLJv83p64",
+        authDomain: "vipsystem-c6a35.firebaseapp.com",
+        projectId: "vipsystem-c6a35",
+        storageBucket: "vipsystem-c6a35.firebasestorage.app",
+        messagingSenderId: "472431567567",
+        appId: "1:472431567567:web:f177ade51fdb8bca5c8dba",
+        measurementId: "G-YWKTL9XKF3"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+
+    // Get the messaging instance
+    const messaging = getMessaging(app);
+
+    // Request notification permission and get the device token
+    Notification.requestPermission().then((permission) => {
+        if (permission === 'granted') {
+            getToken(messaging, { vapidKey: 'BM1cMNNVr_IzOFuYpO-K5_VxqzrjS4V1mTMCTaVLbYV20JOrJvZ-dGyz33u-Erhl0qvcSRBwtWO3_8oBG-xzivE' }).then((currentToken) => {
+                if (currentToken) {
+                    console.log('Device token:', currentToken);
+                    // Save the token on your server to send push notifications later
+                } else {
+                    console.error('No device token available.');
+                }
+            }).catch((err) => {
+                console.error('Error getting token:', err);
+            });
+        }
+    });
+
+    // Handle background push notifications
+    onBackgroundMessage(messaging, (payload) => {
+        console.log('Background message received:', payload);
+        self.registration.showNotification(payload.notification.title, {
+            body: payload.notification.body,
+            icon: payload.notification.icon
+        });
+    });
+</script>
+
 
 
     @yield('footer_content')

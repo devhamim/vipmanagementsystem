@@ -8,6 +8,7 @@ use App\Http\Controllers\DataEntryController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EmployeHomeView;
 use App\Http\Controllers\MatchmakingController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PaymentDataController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
@@ -60,3 +61,10 @@ Route::post('/employee/generate', [EmployeeController::class, 'generateEmployeeD
 // employdashboard
 Route::get('/employe/home/view/{id}', [EmployeHomeView::class, 'employe_home_view'])->name('employe.home.view');
 Route::get('/return/home', [EmployeHomeView::class, 'return_home'])->name('return.home');
+
+//notification
+Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+Route::get('/notifications/read/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.read');
+Route::delete('/notifications/{id}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
+Route::get('/send-notification', [NotificationController::class, 'sendNotification']);
+
