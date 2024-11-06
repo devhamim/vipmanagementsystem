@@ -4,12 +4,12 @@
             <i class="bx bx-menu bx-sm"></i>
         </a>
     </div>
-    <div class="container mt-5">
+    {{-- <div class="container mt-5">
         <h1 class="text-center">Push Notification Example</h1>
         <div class="text-center">
             <button id="enable-notifications" class="btn btn-primary">Enable Notifications</button>
         </div>
-    </div>
+    </div> --}}
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <ul class="navbar-nav flex-row align-items-center ms-auto">
 

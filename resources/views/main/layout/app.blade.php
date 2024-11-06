@@ -137,80 +137,75 @@
     } );
   </script>
 
-{{-- <script>
-    const firebaseConfig = {
-        apiKey: "AIzaSyBe03zQH1HyjnSB16CeaRSYecBLJv83p64",
-        authDomain: "vipsystem-c6a35.firebaseapp.com",
-        projectId: "vipsystem-c6a35",
-        storageBucket: "vipsystem-c6a35.firebasestorage.app",
-        messagingSenderId: "472431567567",
-        appId: "1:472431567567:web:f177ade51fdb8bca5c8dba",
-        measurementId: "G-YWKTL9XKF3"
-    };
-
-    // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const messaging = firebase.messaging();
-
-    document.getElementById('enable-notifications').onclick = () => {
-        Notification.requestPermission().then((permission) => {
-            if (permission === 'granted') {
-                messaging.getToken({ vapidKey: 'BM1cMNNVr_IzOFuYpO-K5_VxqzrjS4V1mTMCTaVLbYV20JOrJvZ-dGyz33u-Erhl0qvcSRBwtWO3_8oBG-xzivE' }).then((currentToken) => {
-                    if (currentToken) {
-                        console.log('Token received:', currentToken);
-                    } else {
-                        console.error('No registration token available. Request permission to generate one.');
-                    }
-                }).catch((err) => {
-                    console.error('An error occurred while retrieving token:', err);
-                });
-            } else {
-                console.error('Notification permission denied.');
-            }
-        });
-    };
-
-    messaging.onMessage((payload) => {
-        console.log('Message received:', payload);
-        alert(`Notification: ${payload.notification.title} - ${payload.notification.body}`);
-    });
-</script> --}}
 <script type="module">
-    // Import the necessary Firebase modules
+    // Import necessary Firebase modules
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
-    import { getMessaging, getToken, onBackgroundMessage } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging.js';
+    import { getMessaging, getToken, onMessage, onBackgroundMessage } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging.js';
 
-    // Your Firebase configuration
+    // Firebase config from Firebase console
     const firebaseConfig = {
         apiKey: "AIzaSyBe03zQH1HyjnSB16CeaRSYecBLJv83p64",
         authDomain: "vipsystem-c6a35.firebaseapp.com",
         projectId: "vipsystem-c6a35",
-        storageBucket: "vipsystem-c6a35.firebasestorage.app",
+        storageBucket: "vipsystem-c6a35.appspot.com", // Fixed storageBucket URL
         messagingSenderId: "472431567567",
         appId: "1:472431567567:web:f177ade51fdb8bca5c8dba",
         measurementId: "G-YWKTL9XKF3"
     };
 
-    // Initialize Firebase
+    // Initialize Firebase app
     const app = initializeApp(firebaseConfig);
-
-    // Get the messaging instance
     const messaging = getMessaging(app);
 
-    // Request notification permission and get the device token
+    // Request notification permission and get device token
     Notification.requestPermission().then((permission) => {
         if (permission === 'granted') {
-            getToken(messaging, { vapidKey: 'BM1cMNNVr_IzOFuYpO-K5_VxqzrjS4V1mTMCTaVLbYV20JOrJvZ-dGyz33u-Erhl0qvcSRBwtWO3_8oBG-xzivE' }).then((currentToken) => {
-                if (currentToken) {
-                    console.log('Device token:', currentToken);
-                    // Save the token on your server to send push notifications later
-                } else {
-                    console.error('No device token available.');
-                }
-            }).catch((err) => {
-                console.error('Error getting token:', err);
-            });
+            getToken(messaging, { vapidKey: 'BM1cMNNVr_IzOFuYpO-K5_VxqzrjS4V1mTMCTaVLbYV20JOrJvZ-dGyz33u-Erhl0qvcSRBwtWO3_8oBG-xzivE' })
+                .then((currentToken) => {
+                    if (currentToken) {
+                        console.log('Device token:', currentToken);
+                        // Send the token to your Laravel backend to save
+                        saveDeviceToken(currentToken);
+                    } else {
+                        console.error('No device token available.');
+                    }
+                })
+                .catch((err) => {
+                    console.error('Error getting token:', err);
+                });
+        } else {
+            console.error('Notification permission denied');
         }
+    });
+
+    // Save the device token to the server
+    function saveDeviceToken(token) {
+        // Example of sending token to the server (using Fetch API)
+        fetch('/save-device-token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({ token: token })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Token saved successfully:', data);
+        })
+        .catch(error => {
+            console.error('Error saving token:', error);
+        });
+    }
+
+    // Handle foreground push notifications
+    onMessage(messaging, (payload) => {
+        console.log('Message received in foreground:', payload);
+        // Customize the notification for the foreground
+        new Notification(payload.notification.title, {
+            body: payload.notification.body,
+            icon: payload.notification.icon
+        });
     });
 
     // Handle background push notifications

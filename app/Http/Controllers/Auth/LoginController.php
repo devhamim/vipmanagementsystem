@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -36,5 +38,24 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
+    }
+
+    /**
+     * The user has been authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return void
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        // Retrieve the device token from the request
+        $fcmToken = $request->input('fcm_token');
+
+        // Update the user's token in the database
+        if ($fcmToken) {
+            $user->update(['token' => $fcmToken]);
+        }
+
     }
 }

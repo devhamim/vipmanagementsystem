@@ -73,29 +73,21 @@ class PaymentAddedNotification extends Notification
         ];
     }
 
-    // public function toFcm($notifiable)
-    // {
-    //     // Create a notification payload for FCM
-    //     $fcmMessage = CloudMessage::new()
-    //         ->withNotification(Notification::create(
-    //             'Payment Update', // Title of the notification
-    //             "{$this->userName} has added a payment of {$this->paymentAmount}" // Body of the notification
-    //         ))
-    //         ->withData([
-    //             'payment_id' => $this->paymentId,
-    //             'payment_amount' => $this->paymentAmount,
-    //             'paydata_name' => $this->paydataName,
-    //         ]);
 
-    //     // Send the message using Firebase messaging service
-    //     $messaging = app('firebase.messaging');
-    //     $messaging->send($fcmMessage, $notifiable->routeNotificationFor('fcm')); // Pass the device token here
-
-    //     return $fcmMessage;
-    // }
     public function toFcm($notifiable)
-    {
-        return CloudMessage::withTarget('token', $notifiable->device_token)
-            ->withNotification(FirebaseNotification::create('Payment Added', "{$this->userName} added a payment of {$this->paymentAmount}."));
-    }
+{
+    return CloudMessage::withTarget('token', $notifiable->device_token) // Use the correct property name for the token
+        ->withNotification(
+            FirebaseNotification::create('Payment Added', "{$this->userName} added a payment of {$this->paymentAmount}.")
+                ->withSound('default') // Optional: add sound
+        )
+        ->withData([
+            'userName' => $this->userName,
+            'paymentAmount' => $this->paymentAmount,
+            'paymentId' => $this->paymentId, // Use $this->paymentId directly
+            'paydataName' => $this->paydataName, // Include paydata name if needed
+        ]);
+}
+
+
 }

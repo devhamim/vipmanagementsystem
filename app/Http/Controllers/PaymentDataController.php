@@ -136,6 +136,7 @@ class PaymentDataController extends Controller
         $validateData['due'] = $request->total-$request->pay;
         $paymentData = PaymentData::create($validateData);
 
+
     Auth::user()->notify(new PaymentAddedNotification(
         Auth::user()->name,
         $paymentData->pay,
@@ -146,13 +147,17 @@ class PaymentDataController extends Controller
     $adminsAndModerators = User::whereIn('role', [1, 2])->get();
 
     foreach ($adminsAndModerators as $admin) {
-        $admin->notify(new PaymentAddedNotification(
-            Auth::user()->name,
-            $paymentData->pay,
-            $paymentData->name,
-            $paymentData->id
-        ));
+        if($admin->token){
+            $admin->notify(new PaymentAddedNotification(
+                Auth::user()->name,
+                $paymentData->pay,
+                $paymentData->name,
+                $paymentData->id
+            ));
+        }
+
     }
+
 
         $total_pay = PaymentData::where('added_by', Auth::user()->id)
         ->whereYear('created_at', date('Y'))

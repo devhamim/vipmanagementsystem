@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\DatabaseNotification;
-use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\Auth;
+use Auth;
 use App\Services\FcmService;
 
 class NotificationController extends Controller
@@ -63,5 +64,20 @@ public function destroy($id)
 
     return redirect()->route('notifications.index')->with('error', 'Notification not found.');
 }
+
+public function saveToken(Request $request)
+    {
+        // Validate the incoming token
+        $request->validate([
+            'token' => 'required|string',
+        ]);
+
+        // Assuming the user is authenticated, store the token
+        $user = Auth::user();
+        $user->device_token = $request->token;
+        $user->save();
+
+        return response()->json(['message' => 'Device token saved successfully']);
+    }
 
 }

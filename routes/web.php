@@ -67,4 +67,5 @@ Route::get('/notifications', [NotificationController::class, 'index'])->name('no
 Route::get('/notifications/read/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.read');
 Route::delete('/notifications/{id}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
 Route::get('/send-notification', [NotificationController::class, 'sendNotification']);
+Route::post('/save-device-token', [NotificationController::class, 'saveToken']);
 
