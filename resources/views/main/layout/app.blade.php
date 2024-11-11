@@ -137,7 +137,7 @@
     } );
   </script>
 
-<script type="module">
+{{-- <script type="module">
     // Import necessary Firebase modules
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
     import { getMessaging, getToken, onMessage, onBackgroundMessage } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging.js';
@@ -216,8 +216,27 @@
             icon: payload.notification.icon
         });
     });
-</script>
+</script> --}}
 
+{{-- <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyA--1jm7JjlOkuYEqrWne3vpm6UhSXV-oY",
+      authDomain: "vipmarage.firebaseapp.com",
+      projectId: "vipmarage",
+      storageBucket: "vipmarage.firebasestorage.app",
+      messagingSenderId: "366050646461",
+      appId: "1:366050646461:web:247125c410ee965874dad4"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+</script> --}}
 
 
     @yield('footer_content')
