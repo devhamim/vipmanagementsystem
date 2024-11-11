@@ -2,7 +2,7 @@
 
 return [
     'credentials' => [
-        'file' => env('FIREBASE_CREDENTIALS'),
+        'file' => storage_path('app/firebase/vipsystem-c6a35-7cf9fadf9dc7.json'),
     ],
     'project_id' => env('FIREBASE_PROJECT_ID'),
 ];

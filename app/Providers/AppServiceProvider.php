@@ -34,14 +34,6 @@ class AppServiceProvider extends ServiceProvider
 
         Paginator::useBootstrap();
 
-        Notification::extend('fcm', function ($app) use ($events) {
-            // Get the instance of FirebaseMessaging
-            $firebaseMessaging = $app->make(FirebaseMessaging::class);
-
-            // Create a new FcmChannel with the correct parameters
-            return new FcmChannel($events, $firebaseMessaging);
-        });
-
         // frontend app
         View::composer('main.layout.app', function ($view){
             $view->with('setting', Setting::first());

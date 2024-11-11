@@ -3,13 +3,8 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Kreait\Firebase\Messaging\CloudMessage;
-use NotificationChannels\Fcm\FcmMessage;
-use NotificationChannels\Fcm\FcmChannel;
-use Kreait\Firebase\Messaging\Notification as FirebaseNotification;
 
 class PaymentAddedNotification extends Notification
 {
@@ -43,7 +38,7 @@ class PaymentAddedNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database', 'fcm'];
+        return ['database'];
     }
 
     /**
@@ -72,22 +67,6 @@ class PaymentAddedNotification extends Notification
             'time' => now()->toDateTimeString(),
         ];
     }
-
-
-    public function toFcm($notifiable)
-{
-    return CloudMessage::withTarget('token', $notifiable->device_token) // Use the correct property name for the token
-        ->withNotification(
-            FirebaseNotification::create('Payment Added', "{$this->userName} added a payment of {$this->paymentAmount}.")
-                ->withSound('default') // Optional: add sound
-        )
-        ->withData([
-            'userName' => $this->userName,
-            'paymentAmount' => $this->paymentAmount,
-            'paymentId' => $this->paymentId, // Use $this->paymentId directly
-            'paydataName' => $this->paydataName, // Include paydata name if needed
-        ]);
-}
 
 
 }
