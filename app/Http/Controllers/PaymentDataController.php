@@ -136,12 +136,12 @@ class PaymentDataController extends Controller
         $validateData['due'] = $request->total-$request->pay;
         $paymentData = PaymentData::create($validateData);
 
-
     Auth::user()->notify(new PaymentAddedNotification(
         Auth::user()->name,
         $paymentData->pay,
         $paymentData->name,
-        $paymentData->id
+        $paymentData->id,
+        false
     ));
 
     $adminsAndModerators = User::whereIn('role', [1, 2])->get();
@@ -152,7 +152,8 @@ class PaymentDataController extends Controller
                 Auth::user()->name,
                 $paymentData->pay,
                 $paymentData->name,
-                $paymentData->id
+                $paymentData->id,
+                false
             ));
         }
 
@@ -239,7 +240,8 @@ class PaymentDataController extends Controller
                 $userName,
                 $PaymentData->pay,
                 $PaymentData->name,
-                $PaymentData->id
+                $PaymentData->id,
+                true 
             ));
         }
 
