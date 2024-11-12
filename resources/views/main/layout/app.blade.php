@@ -136,8 +136,16 @@
         });
     } );
   </script>
-
-<script type="module">
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "4c5e6e6b-e53a-4988-9a63-d6666360c99c",
+    });
+  });
+</script>
+{{-- <script type="module">
     // Import necessary Firebase modules
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
     import { getMessaging, getToken, onMessage, onBackgroundMessage } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging.js';
@@ -216,7 +224,7 @@
             icon: payload.notification.icon
         });
     });
-</script>
+</script> --}}
 
 
     @yield('footer_content')
